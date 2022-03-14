@@ -26,7 +26,7 @@ SECRET_KEY = '6!v6zalwd$+t(m538njz+ejzb0j(toocz3_vsc&=3gn1c%bo5u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['word-of-mouth-a24.herokuapp.com']
 
 
 # Application definition
@@ -81,10 +81,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3a0nki91ars69',
+        'USER': 'enbugnxsskntma',
+        'PASSWORD': 'b99b87903b0922a6e54e525b6d96f5edf6427bf1f042c91c67ef7122102c72c9',
+        'HOST': 'ec2-35-153-35-94.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -126,6 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 django_heroku.settings(locals())
 
