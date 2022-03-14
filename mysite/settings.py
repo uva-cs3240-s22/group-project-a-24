@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
+
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -88,16 +90,24 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3a0nki91ars69',
-        'USER': 'enbugnxsskntma',
-        'PASSWORD': 'b99b87903b0922a6e54e525b6d96f5edf6427bf1f042c91c67ef7122102c72c9',
-        'HOST': 'ec2-35-153-35-94.compute-1.amazonaws.com',
-        'PORT': '5432',
+if 'test' in sys.argv:
+    DATABASES = {
+        'default':{
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd3a0nki91ars69',
+            'USER': 'enbugnxsskntma',
+            'PASSWORD': 'b99b87903b0922a6e54e525b6d96f5edf6427bf1f042c91c67ef7122102c72c9',
+            'HOST': 'ec2-35-153-35-94.compute-1.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
