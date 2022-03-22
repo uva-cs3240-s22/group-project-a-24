@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -7,7 +8,7 @@ from django.urls import reverse
 from wordofmouth.forms import RecipeForm
 from wordofmouth.models import Recipe
 
-
+@login_required(login_url='/accounts/google/login')
 def create_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST)

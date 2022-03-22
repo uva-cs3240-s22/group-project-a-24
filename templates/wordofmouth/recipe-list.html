@@ -26,7 +26,20 @@
     {% endif %}
     </div>
 {% else %}
-  <a href="{% provider_login_url 'google' %}">Login With Google</a>
+  <a href="{% provider_login_url 'google' %}">Login With Google to post your own recipe.</a>
+    <div>
+    <h1>Recipes</h1>
+
+    {% if latest_recipe_list %}
+        <ul>
+            {% for recipe in latest_recipe_list %}
+                <li>{{ recipe.title }}: {{ recipe.description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recipes posted :(</p>
+    {% endif %}
+    </div>
 {% endif %}
 </body>
 </html>
