@@ -20,7 +20,7 @@
             {% for recipe in latest_recipe_list %}
                 <li>
                     <h4>{{ recipe.title }}</h4>
-                    <p>Created by: {{ recipe.author.username }}</p>
+                    <p>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></p>
                     <h5>{{ recipe.description }}</h5>
                 </li>
             {% endfor %}
@@ -39,7 +39,7 @@
             {% for recipe in latest_recipe_list %}
                 <li>
                     <h1>{{ recipe.title }}</h1>
-                    <p>Created by: {{ recipe.author.username }}</p>
+                    <p>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></p>
                     <h2>{{ recipe.description }}</h2>
                 </li>
             {% endfor %}

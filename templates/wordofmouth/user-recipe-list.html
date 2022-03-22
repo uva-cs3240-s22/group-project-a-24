@@ -7,7 +7,8 @@
 <body>
 <h1>Word of Mouth</h1>
 
-    <h1>Recipes by {{ user.pk }}</h1>
+    {# get author name by getting the author of the first element in the list #}
+    <h1>Recipes by {{ latest_user_recipe_list.first.author.username }}</h1>
 
     {% if latest_user_recipe_list %}
         <ul>
