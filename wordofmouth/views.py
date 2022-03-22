@@ -1,7 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
+from django.contrib.auth.models import User
 # Create your views here.
 from django.urls import reverse
 

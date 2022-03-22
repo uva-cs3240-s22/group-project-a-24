@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 import datetime
 from django.utils import timezone
@@ -16,6 +17,10 @@ class Temp(models.Model):
         return now - datetime.timedelta(days=1) <= self.temp_date <= now
 
 
+# class Author(models.Model):
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
 class Recipe(models.Model):
     title = models.CharField(max_length=100, blank=False) # double check on blank
     description = models.CharField(max_length=175, blank=True)
@@ -25,5 +30,3 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-
-
