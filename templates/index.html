@@ -1,10 +1,17 @@
 {% load socialaccount %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
 <html>
 <body>
 <h1>Word of Mouth</h1>
 {% if user.is_authenticated %}
   <p>Welcome, You are logged in as {{ user.username }}</p>
-    <a href='/logout'>Logout</a>
+    <div>
+        <a href='/create-recipe' class='btn btn-primary'>Create Recipe</a>
+        <a href='/logout'>Logout</a>
+    </div>
 {% else %}
   <a href="{% provider_login_url 'google' %}">Login With Google</a>
 {% endif %}

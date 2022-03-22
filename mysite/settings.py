@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'django.contrib.sites',
-    'wordofmouth',
+    # 'wordofmouth',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'wordofmouth.apps.WordOfMouthConfig',
 ]
 
 MIDDLEWARE = [
