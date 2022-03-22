@@ -18,7 +18,11 @@
     {% if latest_recipe_list %}
         <ul>
             {% for recipe in latest_recipe_list %}
-                <li>{{ recipe.title }}: {{ recipe.description }}</li>
+                <li>
+                    <h4>{{ recipe.title }}</h4>
+                    <p>Created by: {{ recipe.author.username }}</p>
+                    <h5>{{ recipe.description }}</h5>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
@@ -33,7 +37,11 @@
     {% if latest_recipe_list %}
         <ul>
             {% for recipe in latest_recipe_list %}
-                <li>{{ recipe.title }}: {{ recipe.description }}</li>
+                <li>
+                    <h1>{{ recipe.title }}</h1>
+                    <p>Created by: {{ recipe.author.username }}</p>
+                    <h2>{{ recipe.description }}</h2>
+                </li>
             {% endfor %}
         </ul>
     {% else %}

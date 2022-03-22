@@ -21,7 +21,7 @@ class Recipe(models.Model):
     description = models.CharField(max_length=175, blank=True)
     # ingredients = ArrayField(models) fix later
     # directions =  fix later
-    # user_name = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title

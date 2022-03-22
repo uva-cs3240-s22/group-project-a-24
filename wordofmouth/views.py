@@ -13,7 +13,9 @@ def create_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST)
         if form.is_valid():
-            r = Recipe(title=form.cleaned_data['title'], description=form.cleaned_data['description']) #, user_name=form.cleaned_data['user_name'])
+            r = Recipe(title=form.cleaned_data['title'],
+                       description=form.cleaned_data['description'],
+                       author=request.user)
             r.save()
             return HttpResponseRedirect('/')
     else:
