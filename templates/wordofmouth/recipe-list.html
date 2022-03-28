@@ -16,15 +16,19 @@
     <h1>Recipes</h1>
 
     {% if latest_recipe_list %}
-        <ul>
+        <div>
+            {# ^ this div is for the container of recipes #}
             {% for recipe in latest_recipe_list %}
-                <li>
+                <div>
+                    {# ^ this div is for each recipe #}
                     <h4>{{ recipe.title }}</h4>
-                    <p>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></p>
-                    <h5>{{ recipe.description }}</h5>
-                </li>
+                    <h5>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h5>
+                    <h6>Description: {{ recipe.description }}</h6>
+                    <h6>{{ recipe.ingredients }}</h6>
+                    <h6>{{ recipe.directions }}</h6>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>No recipes posted :(</p>
     {% endif %}
@@ -39,8 +43,10 @@
             {% for recipe in latest_recipe_list %}
                 <li>
                     <h1>{{ recipe.title }}</h1>
-                    <p>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></p>
+                    <h2>Created by: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
                     <h2>{{ recipe.description }}</h2>
+                    <h6>{{ recipe.ingredients }}</h6>
+                    <h6>{{ recipe.directions }}</h6>
                 </li>
             {% endfor %}
         </ul>
