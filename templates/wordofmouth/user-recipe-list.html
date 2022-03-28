@@ -5,23 +5,65 @@
 {% bootstrap_messages %}
 <html>
 <body>
-<h1>Word of Mouth</h1>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href={% url 'wordofmouth:home' %}>Word of Mouth</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+{#        <li class="nav-item">#}
+{#          <a class="nav-link active" aria-current="page" href={% url 'wordofmouth:home' %}>Home</a>#}
+{#        </li>#}
+{#        <li class="nav-item">#}
+{#          <a class="nav-link active" href={% url 'wordofmouth:create-recipe' %}>Create a Recipe</a>#}
+{#        </li>#}
+
+      </ul>
+        {% if user.is_authenticated %}
+            <span class="navbar-text">
+              <div class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Welcome, {{ user.first_name }}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                    <li><a class="dropdown-item" href= '/{{ user.pk }}/recipes'>View your recipes</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out?</a></li>
+                  </ul>
+              </div>
+            </span>
+        {% else %}
+            <span class="navbar-text">
+                <a class="nav-link btn btn-primary text-light" href={% provider_login_url 'google' %} role="button">Log In</a>
+            </span>
+        {% endif %}
+    </div>
+  </div>
+</nav>
+
+    <div class="d-flex justify-content-center align-items-center flex-column">
     {# get author name by getting the author of the first element in the list #}
-    <h1>Recipes by {{ latest_user_recipe_list.first.author.username }}</h1>
+    <h3 class="mt-3 mb-3">Recipes by {{ latest_user_recipe_list.first.author.username }}</h3>
 
     {% if latest_user_recipe_list %}
-        <ul>
+        <div>
+            {# ^ this div is for the container of recipes #}
             {% for recipe in latest_user_recipe_list %}
-                <li>
-                    <h4>{{ recipe.title }}</h4>
-                    <p>Created by: {{ recipe.author.username }}</p>
-                    <h5>{{ recipe.description }}</h5>
-                </li>
+                <div class="card" style="width: 25rem">
+                    {# ^ this div is for each recipe #}
+{#                    <img src="..." class="card-img-top" alt="image to be placed">#}
+                    <h3 class="card-title">{{ recipe.title }}</h3>
+                    <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Created by:</span> <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h6>
+                    <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Description:</span> {{ recipe.description }}</h6>
+                    <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Ingredients:</span> {{ recipe.ingredients }}</h6>
+                    <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Directions:</span> {{ recipe.directions }}</h6>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p>{{ recipe.author.username }} has not posted any recipes :(</p>
+        <p>No recipes posted :(</p>
     {% endif %}
     </div>
 
