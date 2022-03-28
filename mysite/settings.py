@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'django.contrib.sites',
-    'wordofmouth',
+    # 'wordofmouth',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'wordofmouth.apps.WordOfMouthConfig',
 ]
 
 MIDDLEWARE = [
@@ -176,3 +177,5 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_LOGIN_ON_GET=True # to get rid of page asking for email for multiple users
+
+# AUTH_PROFILE_MODULE = 'wordofmouth.Author'
