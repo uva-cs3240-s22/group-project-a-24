@@ -15,11 +15,11 @@ class Testviews(TestCase):  # tests based off of this tutorial: https://www.yout
             author=User.objects.create(username="hana")
         )
 
-    def test_something_POST(self):
-        RecipeForm.objects.create(
-            title="form.cleaned_data['title']",
-            description=form.cleaned_data['description'],
-            ingredients=form.cleaned_data['ingredients'],
-            directions=form.cleaned_data['directions'],
-            author=request.user
-        )
+    # def test_something_POST(self):
+    #     RecipeForm.objects.create(
+    #         title= coolRecipe.title,
+    #         description=form.cleaned_data['description'],
+    #         ingredients=form.cleaned_data['ingredients'],
+    #         directions=form.cleaned_data['directions'],
+    #         author=request.user
+    #     )
