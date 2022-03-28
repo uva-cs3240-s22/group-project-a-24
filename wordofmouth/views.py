@@ -10,6 +10,7 @@ from django.views import generic
 from wordofmouth.forms import RecipeForm
 from wordofmouth.models import Recipe
 
+
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
     if request.method == 'POST':
