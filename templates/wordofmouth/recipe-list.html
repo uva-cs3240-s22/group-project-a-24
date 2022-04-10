@@ -52,7 +52,7 @@
 
 
     {% if latest_recipe_list %}
-        <div class="d-flex flex-wrap justify-content-between">
+        <div class="d-flex flex-wrap justify-content-around">
             {# ^ this div is for the container of recipes #}
             {% for recipe in latest_recipe_list %}
                 <div class="card" style="width: 25rem">
@@ -79,8 +79,8 @@
 
 
     {% if latest_recipe_list %}
-        <div>
-            {# ^ this div is for the container of recipes #}
+    <div class="d-flex flex-wrap justify-content-around">
+        {# ^ this div is for the container of recipes #}
             {% for recipe in latest_recipe_list %}
                 <div class="card" style="width: 25rem">
                     {# ^ this div is for each recipe #}
