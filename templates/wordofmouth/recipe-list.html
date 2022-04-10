@@ -52,12 +52,12 @@
 
 
     {% if latest_recipe_list %}
-        <div>
+        <div class="d-flex flex-wrap justify-content-between">
             {# ^ this div is for the container of recipes #}
             {% for recipe in latest_recipe_list %}
                 <div class="card" style="width: 25rem">
                     {# ^ this div is for each recipe #}
-{#                    <img src="..." class="card-img-top" alt="image to be placed">#}
+                    <img src="{{recipe.image.url}}" class="card-img-top" alt="image to be placed">
                     <h3 class="card-title">{{ recipe.title }}</h3>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Created by:</span> <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h6>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Description:</span> {{ recipe.description }}</h6>
@@ -84,7 +84,7 @@
             {% for recipe in latest_recipe_list %}
                 <div class="card" style="width: 25rem">
                     {# ^ this div is for each recipe #}
-{#                    <img src="..." class="card-img-top" alt="image to be placed">#}
+                    <img src="{{recipe.image.url}}" class="card-img-top" alt="image to be placed">
                     <h3 class="card-title">{{ recipe.title }}</h3>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Created by:</span> <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h6>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Description:</span> {{ recipe.description }}</h6>
