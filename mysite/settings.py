@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'wordofmouth.apps.WordOfMouthConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,15 @@ LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET=True # to get rid of page asking for email for multiple users
 
 # AUTH_PROFILE_MODULE = 'wordofmouth.Author'
+
+# aws s3 image hosting 
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_S3_ACCESS_KEY_ID = 'AKIARGFKXPWEHQRRT5H3'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'word-of-mouth-a24'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'

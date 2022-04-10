@@ -27,6 +27,7 @@ class Recipe(models.Model):
     ingredients = models.TextField(blank = True)
     directions = models.TextField(blank = True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    image = models.ImageField(upload_to='staticfiles', default='staticfiles/recipe.png')
 
     def __str__(self):
         return self.title
