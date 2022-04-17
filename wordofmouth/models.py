@@ -31,3 +31,7 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey('User', related_name='favorites')
+    movie = models.ForeignKey('Movie', related_name='favorites')
