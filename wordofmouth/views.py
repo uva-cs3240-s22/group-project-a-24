@@ -43,6 +43,10 @@ class RecipesByUserView(generic.ListView):
     def get_queryset(self):
         return Recipe.objects.filter(author=self.kwargs['pk'])
 
+def recipe_detail(request, id):
+    recipe = Recipe.objects.get(id=id)
+    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe})
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
