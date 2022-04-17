@@ -55,7 +55,7 @@
         <div class="d-flex flex-wrap justify-content-around">
             {# ^ this div is for the container of recipes #}
             {% for recipe in latest_recipe_list %}
-                <div class="card" style="width: 25rem">
+                <div class="card mb-3" style="width: 25rem">
                     {# ^ this div is for each recipe #}
                     <a href={% url 'wordofmouth:recipe-detail' recipe.pk %}><img src="{{recipe.image.url}}" class="card-img-top" alt="image to be placed"></a>
                     <!-- <img src="{{recipe.image.url}}" class="card-img-top" alt="image to be placed"> -->
