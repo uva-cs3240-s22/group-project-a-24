@@ -11,5 +11,6 @@ urlpatterns = [
     path('', views.view_recipes, name='home'),
     path('create-recipe/', views.create_recipe, name='create-recipe'),
     # path('view-recipes/', views.view_recipes, name='view-recipes'),
-    path('<int:pk>/recipes', views.RecipesByUserView.as_view(), name='recipes-by-user')
+    path('<int:pk>/recipes', views.RecipesByUserView.as_view(), name='recipes-by-user'),
+    path('<int:ID>/recipes', views.SingleRecipeView.as_view(), name='single-recipe')
 ]

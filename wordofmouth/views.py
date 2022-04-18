@@ -47,3 +47,9 @@ class RecipesByUserView(generic.ListView):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
     #     return context
+class SingleRecipeView(generic.DetailView):
+    template_name = 'templates/wordofmouth/single-recipe.html'
+    model = Recipe
+    context_object_name = 'single_recipe'
+    def get_queryset(self):
+        return Recipe.objects.filter(ID=self.kwargs["ID"])
