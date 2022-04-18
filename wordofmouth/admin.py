@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 # Register your models here.
 from django.contrib.auth.models import User
 
-from wordofmouth.models import Recipe
+from wordofmouth.models import Recipe, Comment
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -15,6 +15,16 @@ class RecipeAdmin(admin.ModelAdmin):
             obj.author = request.user
         obj.save()
 
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'body', 'post')
+    filter = 'active'
+    search_fields = ('author', 'body')
+
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
 #
 # class AuthorInline(admin.StackedInline):
 #     model = Author

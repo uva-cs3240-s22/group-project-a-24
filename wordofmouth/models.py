@@ -30,3 +30,16 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='comments')
+    author = models.CharField(max_length=80)
+    body = models.TextField()
+    #timestap = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    #class Meta:
+     #   order = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.author)
