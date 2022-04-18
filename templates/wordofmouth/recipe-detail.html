@@ -30,6 +30,7 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                     <li><a class="dropdown-item" href= '/{{ user.pk }}/recipes'>View your recipes</a></li>
+                    <li><a class="dropdown-item" href= '/favorites'>View your favorites</a></li>
                     <li><a class="dropdown-item" href="/logout">Log out?</a></li>
                   </ul>
               </div>
@@ -52,7 +53,15 @@
         <div class="ms-5">
             <div>
                 <h1>{{recipe.title}}</h1>
-                <h2>By: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
+                <div class="d-flex justify-content-between align-items-center flex-row mb-3">
+                    <h2>By: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">                        
+                        <input class="btn btn-primary" id="submit" type="button" value="Add to Favorites" />
+                    </form>
+                    {% endif %}
+                </div>
+
             </div>
             <div>
                 <h5>

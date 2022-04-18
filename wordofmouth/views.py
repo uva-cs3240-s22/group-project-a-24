@@ -8,8 +8,8 @@ from django.urls import reverse
 from django.views import generic
 
 from wordofmouth.forms import RecipeForm
-from wordofmouth.models import Recipe
-
+from wordofmouth.models import FavoriteRecipe, Recipe
+from django.shortcuts import get_object_or_404,redirect
 
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
@@ -51,3 +51,28 @@ def recipe_detail(request, id):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
     #     return context
+
+@login_required
+def add_favorite(request, id):
+    r = get_object_or_404(Recipe, id=id)
+    if r.favorites.filter(username=request.user.username).exists():
+        # check to see if the user has already added this post to favorites
+        r.favorites.filter(username=request.user.username).delete()
+    else:
+        f = FavoriteRecipe.objects.create(user=request.user, recipe=r)
+        f.save()
+        # r.favorites.add(request.user)
+    # return render(request, 'wordofmouth/user-favorites.html')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# def favorite_list(request):
+#     favorites = Recipe.newmanager.filter(favorites=request.user)
+#     return render(request, 'wordofmouth/user-favorites.html', { 'favorites': favorites })
+# @login_required
+class UserFavorites(generic.ListView):
+    model = Recipe
+    template_name = 'templates/wordofmouth/user-favorites.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        return FavoriteRecipe.objects.filter(user=self.request.user)

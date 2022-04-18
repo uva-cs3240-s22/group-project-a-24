@@ -28,10 +28,11 @@ class Recipe(models.Model):
     directions = models.TextField(blank = True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='staticfiles', default='staticfiles/recipe.png')
+    favorites = models.ManyToManyField(User, related_name='favorite')
 
     def __str__(self):
         return self.title
 
-# class FavoriteRecipe(models.Model):
-#     user = models.ForeignKey('User', related_name='favorites')
-#     movie = models.ForeignKey('Movie', related_name='favorites')
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fav')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='fav')
