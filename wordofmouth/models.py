@@ -32,6 +32,6 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
-# class FavoriteRecipe(models.Model):
-#     user = models.ForeignKey('User', related_name='favorites')
-#     movie = models.ForeignKey('Movie', related_name='favorites')
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favorites')

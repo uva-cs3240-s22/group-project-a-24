@@ -8,8 +8,8 @@ from django.urls import reverse
 from django.views import generic
 
 from wordofmouth.forms import RecipeForm
-from wordofmouth.models import Recipe
-
+from wordofmouth.models import FavoriteRecipe, Recipe
+from django.shortcuts import get_object_or_404,redirect
 
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
@@ -45,9 +45,39 @@ class RecipesByUserView(generic.ListView):
 
 def recipe_detail(request, id):
     recipe = Recipe.objects.get(id=id)
-    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe})
+    temp = FavoriteRecipe.objects.filter(user=request.user)
+    user_favs = []
+    for fav in temp:
+        user_favs.append(fav.recipe)
+    print(user_favs)
+    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe, 'user_favs': user_favs})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
     #     return context
+
+@login_required
+def add_favorite(request, id):
+    r = get_object_or_404(Recipe, id=id)
+    if r.favorites.filter(user=request.user).exists():
+        # check to see if the user has already added this post to favorites
+        r.favorites.filter(user=request.user).delete()
+    else:
+        f = FavoriteRecipe.objects.create(user=request.user, recipe=r)
+        f.save()
+        # r.favorites.add(request.user)
+    # return render(request, 'wordofmouth/user-favorites.html')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# def favorite_list(request):
+#     favorites = Recipe.newmanager.filter(favorites=request.user)
+#     return render(request, 'wordofmouth/user-favorites.html', { 'favorites': favorites })
+# @login_required
+class UserFavorites(generic.ListView):
+    model = Recipe
+    template_name = 'templates/wordofmouth/user-favorites.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        return FavoriteRecipe.objects.filter(user=self.request.user)
