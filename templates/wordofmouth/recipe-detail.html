@@ -53,12 +53,20 @@
         <div class="ms-5">
             <div>
                 <h1>{{recipe.title}}</h1>
-                <div class="d-flex justify-content-between align-items-center flex-row mb-3">
+                <div class="d-flex flex-column mb-3">
                     <h2>By: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
                     {% if user.is_authenticated %}
-                    <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">                        
+                    <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">                        
                         <input class="btn btn-primary" id="submit" type="button" value="Add to Favorites" />
-                    </form>
+                    </form> -->
+                    <a href="{% url 'wordofmouth:add-recipe-favorite' recipe.pk %}">
+                        {% if recipe in user_favs %}
+                            <button class="btn btn-outline-danger">Remove from Favorites</button>
+                        {% else %}
+                            <button class="btn btn-primary">Add to Favorites</button>
+                        {% endif %}
+                    </a>
+                   
                     {% endif %}
                 </div>
 

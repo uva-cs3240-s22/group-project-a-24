@@ -45,7 +45,12 @@ class RecipesByUserView(generic.ListView):
 
 def recipe_detail(request, id):
     recipe = Recipe.objects.get(id=id)
-    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe})
+    temp = FavoriteRecipe.objects.filter(user=request.user)
+    user_favs = []
+    for fav in temp:
+        user_favs.append(fav.recipe)
+    print(user_favs)
+    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe, 'user_favs': user_favs})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -55,9 +60,9 @@ def recipe_detail(request, id):
 @login_required
 def add_favorite(request, id):
     r = get_object_or_404(Recipe, id=id)
-    if r.favorites.filter(username=request.user.username).exists():
+    if r.favorites.filter(user=request.user).exists():
         # check to see if the user has already added this post to favorites
-        r.favorites.filter(username=request.user.username).delete()
+        r.favorites.filter(user=request.user).delete()
     else:
         f = FavoriteRecipe.objects.create(user=request.user, recipe=r)
         f.save()
