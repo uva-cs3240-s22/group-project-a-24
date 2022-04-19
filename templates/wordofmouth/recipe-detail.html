@@ -66,6 +66,9 @@
                             <button class="btn btn-primary">Add to Favorites</button>
                         {% endif %}
                     </a>
+                    <a href= {% url 'wordofmouth:fork-recipe' recipe.pk %}>
+                        <button class="btn btn-info">Fork Recipe</button>
+                    </a>
                    
                     {% endif %}
                 </div>
