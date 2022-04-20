@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views import generic
 
-from wordofmouth.forms import RecipeForm
+from wordofmouth.forms import RecipeForm, ForkedRecipeForm
 from wordofmouth.models import FavoriteRecipe, Recipe
 from django.shortcuts import get_object_or_404,redirect
 
@@ -32,7 +32,7 @@ def create_recipe(request):
 def fork_recipe(request, id):
     recipe = Recipe.objects.get(id=id)
     if request.method == 'POST':
-        form = RecipeForm(request.POST, request.FILES)
+        form = ForkedRecipeForm(request.POST, request.FILES)
         if form.is_valid():
             r = Recipe(title=form.cleaned_data['title'],
                        description=form.cleaned_data['description'],
@@ -44,7 +44,7 @@ def fork_recipe(request, id):
             r.save()
             return HttpResponseRedirect('/')
     else:
-        form = RecipeForm()
+        form = ForkedRecipeForm()
     return render(request, 'templates/wordofmouth/fork-recipe.html', {'form': form, 'recipe': recipe})
 
 def view_recipes(request):
