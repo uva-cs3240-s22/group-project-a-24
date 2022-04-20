@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 
 from wordofmouth.forms import RecipeForm, ForkedRecipeForm
-from wordofmouth.models import FavoriteRecipe, Recipe
+from wordofmouth.models import FavoriteRecipe, Recipe, ForkedRecipe
 from django.shortcuts import get_object_or_404,redirect
 
 @login_required(login_url='/accounts/google/login')
@@ -34,7 +34,7 @@ def fork_recipe(request, id):
     if request.method == 'POST':
         form = ForkedRecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            r = Recipe(title=form.cleaned_data['title'],
+            r = ForkedRecipe(title=form.cleaned_data['title'],
                        description=form.cleaned_data['description'],
                        ingredients=form.cleaned_data['ingredients'],
                        directions=form.cleaned_data['directions'],

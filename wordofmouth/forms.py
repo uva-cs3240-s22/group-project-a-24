@@ -12,7 +12,9 @@ class ForkedRecipeForm(forms.ModelForm):
     class Meta:
         model = ForkedRecipe
         fields = ['title', 'description', 'ingredients', 'directions', 'image']
-    title = forms.CharField(max_length=200)
+        def __str__(self):
+            return model.title
+    title = forms.CharField(initial = Meta.model., max_length=200)
     description = forms.CharField(label='Enter a Brief Description', max_length=200)
     ingredients = forms.CharField(label='Enter Ingredients and Specified Amounts',widget=forms.Textarea(attrs={"rows":5, "cols":20}))
     directions = forms.CharField(label='Enter Directions',widget=forms.Textarea(attrs={"rows":5, "cols":20}))
