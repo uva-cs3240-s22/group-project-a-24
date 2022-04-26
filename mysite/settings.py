@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6!v6zalwd$+t(m538njz+ejzb0j(toocz3_vsc&=3gn1c%bo5u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['word-of-mouth-a24.herokuapp.com']
 
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 if 'test' in sys.argv:
     DATABASES = {
-        'default':{
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': 'mydatabase'
         }
@@ -177,11 +177,12 @@ SITE_ID = 5
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-SOCIALACCOUNT_LOGIN_ON_GET=True # to get rid of page asking for email for multiple users
+# to get rid of page asking for email for multiple users
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # AUTH_PROFILE_MODULE = 'wordofmouth.Author'
 
-# aws s3 image hosting 
+# aws s3 image hosting
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
