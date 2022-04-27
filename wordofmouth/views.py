@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views import generic
 
-from wordofmouth.forms import RecipeForm, ForkedRecipeForm
-from wordofmouth.models import FavoriteRecipe, Recipe, ForkedRecipe
+from wordofmouth.forms import RecipeForm, CommentForm, ForkedRecipeForm
+from wordofmouth.models import FavoriteRecipe, Recipe, Comment, ForkedRecipe
+
 from django.shortcuts import get_object_or_404,redirect
 
 @login_required(login_url='/accounts/google/login')
@@ -49,7 +50,7 @@ def fork_recipe(request, id):
 
 def view_recipes(request):
     latest_recipe_list = Recipe.objects
-    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(), })
+    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(),})
 
 
 class RecipesByUserView(generic.ListView):
@@ -60,6 +61,7 @@ class RecipesByUserView(generic.ListView):
     def get_queryset(self):
         return Recipe.objects.filter(author=self.kwargs['pk'])
 
+
 def recipe_detail(request, id):
     recipe = Recipe.objects.get(id=id)
     temp = FavoriteRecipe.objects.filter(user=request.user)
@@ -67,7 +69,25 @@ def recipe_detail(request, id):
     for fav in temp:
         user_favs.append(fav.recipe)
     print(user_favs)
-    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe, 'user_favs': user_favs})
+
+    comments = Comment.objects.filter(recipe=recipe)
+    new_comment = None
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # new_comment = Comment.objects.create(recipe=recipe, user=request.user, body=request.POST.get('body'))
+            new_comment = comment_form.save(commit=False)
+            new_comment.recipe = recipe
+            new_comment.user = request.user
+            new_comment.body = request.POST.get('body')
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'wordofmouth/recipe-detail.html',
+                      {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
+                       'comment_form': comment_form})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

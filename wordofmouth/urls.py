@@ -13,7 +13,8 @@ urlpatterns = [
     path('recipe/<int:id>/fork-recipe/', views.fork_recipe, name='fork-recipe'),
     # path('view-recipes/', views.view_recipes, name='view-recipes'),
     path('<int:pk>/recipes', views.RecipesByUserView.as_view(), name='recipes-by-user'),
-    path('recipe/<int:id>', views.recipe_detail, name='recipe-detail'),
+    path('recipe/<int:id>/', views.recipe_detail, name='recipe-detail'),
     path('favorites', views.UserFavorites.as_view(), name = 'favorite_list'),
     path('favorite/<int:id>', views.add_favorite, name='add-recipe-favorite'),
+
 ]

@@ -8,17 +8,17 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href={% url 'wordofmouth:home' %}>Word of Mouth</a>
+    <a class="navbar-brand" href="{% url 'wordofmouth:home' %}">Word of Mouth</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 {#        <li class="nav-item">#}
-{#          <a class="nav-link active" aria-current="page" href={% url 'wordofmouth:home' %}>Home</a>#}
+{#          <a class="nav-link active" aria-current="page" href="{% url 'wordofmouth:home' %}">Home</a>#}
 {#        </li>#}
 {#        <li class="nav-item">#}
-{#          <a class="nav-link active" href={% url 'wordofmouth:create-recipe' %}>Create a Recipe</a>#}
+{#          <a class="nav-link active" href="{% url 'wordofmouth:create-recipe' %}">Create a Recipe</a>#}
 {#        </li>#}
 
       </ul>
@@ -37,7 +37,7 @@
             </span>
         {% else %}
             <span class="navbar-text">
-                <a class="nav-link btn btn-primary text-light" href={% provider_login_url 'google' %} role="button">Log In</a>
+                <a class="nav-link btn btn-primary text-light" href="{% provider_login_url 'google' %}" role="button">Log In</a>
             </span>
         {% endif %}
     </div>
@@ -54,9 +54,9 @@
             <div>
                 <h1>{{recipe.title}}</h1>
                 <div class="d-flex flex-column mb-3">
-                    <h2>By: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
+                    <h2>By: <a href= "{% url 'wordofmouth:recipes-by-user' recipe.author.pk %}">{{ recipe.author.username }}</a></h2>
                     {% if user.is_authenticated %}
-                    <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">                        
+                    <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">
                         <input class="btn btn-primary" id="submit" type="button" value="Add to Favorites" />
                     </form> -->
                     <a href="{% url 'wordofmouth:add-recipe-favorite' recipe.pk %}">
@@ -66,7 +66,7 @@
                             <button class="btn btn-primary">Add to Favorites</button>
                         {% endif %}
                     </a>
-                    <a href= {%  url 'wordofmouth:fork-recipe' recipe.id %}>
+                    <a href= "{%  url 'wordofmouth:fork-recipe' recipe.id %}">
                         <button class="btn btn-info">Fork Recipe</button>
                     </a>
                    
@@ -91,8 +91,42 @@
                 </h6>
             </div>
         </div>
-
-
     </div>
+    <div class="column">
+      <div class="card-body">
+        <!-- comments -->
+          <h2>{{ comments.count }} comment(s):</h2>
+            {% for comment in comments  %}
+                <div class="comment">
+                    <p class="c">
+                        <b>{{ comment.user }}</b>
+                    </p>
+                    {{ comment.body|linebreaks }}
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                </div>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+      </div>
+    </div>
+        <div class="card">
+            <div class="card-body">
+                {% if new_comment %}
+                    <h4>comment added, add another?</h4>
+                    <form action="." method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
+                {% else %}
+                    <h4>Add your new comment</h4>
+                    <form action="." method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
 </body>
 </html>
