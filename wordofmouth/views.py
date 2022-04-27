@@ -32,7 +32,7 @@ def create_recipe(request):
 
 def view_recipes(request):
     latest_recipe_list = Recipe.objects
-    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(), })
+    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(),})
 
 
 class RecipesByUserView(generic.ListView):
@@ -52,11 +52,20 @@ def recipe_detail(request, id):
         user_favs.append(fav.recipe)
     print(user_favs)
 
-    tempUser = request.user
     comments = Comment.objects.filter(recipe=recipe)
-    tempVal = addComments(request, id, tempUser)
-    new_comment = tempVal[0]
-    comment_form = tempVal[1]
+    new_comment = None
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # new_comment = Comment.objects.create(recipe=recipe, user=request.user, body=request.POST.get('body'))
+            new_comment = comment_form.save(commit=False)
+            new_comment.recipe = recipe
+            new_comment.user = request.user
+            new_comment.body = request.POST.get('body')
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
 
     return render(request, 'wordofmouth/recipe-detail.html',
                       {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
@@ -91,21 +100,3 @@ class UserFavorites(generic.ListView):
 
     def get_queryset(self):
         return FavoriteRecipe.objects.filter(user=self.request.user)
-
-
-def addComments(request,id, tempUser):
-    recipe = Recipe.objects.get(id=id)
-    new_comment = None
-    if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            # new_comment = Comment.objects.create(recipe=recipe, user=request.user, body=request.POST.get('body'))
-            new_comment = comment_form.save(commit=False)
-            new_comment.recipe = recipe
-            new_comment.user = tempUser
-            new_comment.body = request.POST.get('body')
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
-
-    return new_comment, comment_form

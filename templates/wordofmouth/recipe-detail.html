@@ -109,7 +109,12 @@
         <div class="card">
             <div class="card-body">
                 {% if new_comment %}
-                    <h4>comment added</h4>
+                    <h4>comment added, add another?</h4>
+                    <form action="." method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
                 {% else %}
                     <h4>Add your new comment</h4>
                     <form action="." method="post">
