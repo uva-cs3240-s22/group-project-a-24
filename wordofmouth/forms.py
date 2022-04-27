@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 
 class RecipeForm(forms.Form):
@@ -7,3 +8,8 @@ class RecipeForm(forms.Form):
     ingredients = forms.CharField(label='Enter Ingredients and Specified Amounts',widget=forms.Textarea(attrs={"rows":5, "cols":20}))
     directions = forms.CharField(label='Enter Directions',widget=forms.Textarea(attrs={"rows":5, "cols":20}))
     image = forms.ImageField(label='Upload Image')
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+       model = Comment
+       fields = ['body']

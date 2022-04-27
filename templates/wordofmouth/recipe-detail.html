@@ -56,7 +56,7 @@
                 <div class="d-flex flex-column mb-3">
                     <h2>By: <a href= {% url 'wordofmouth:recipes-by-user' recipe.author.pk %}>{{ recipe.author.username }}</a></h2>
                     {% if user.is_authenticated %}
-                    <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">                        
+                    <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">
                         <input class="btn btn-primary" id="submit" type="button" value="Add to Favorites" />
                     </form> -->
                     <a href="{% url 'wordofmouth:add-recipe-favorite' recipe.pk %}">
@@ -66,7 +66,7 @@
                             <button class="btn btn-primary">Add to Favorites</button>
                         {% endif %}
                     </a>
-                   
+
                     {% endif %}
                 </div>
 
@@ -88,8 +88,37 @@
                 </h6>
             </div>
         </div>
-
-
     </div>
+    <div class="column">
+      <div class="card-body">
+        <!-- comments -->
+          <h2>{{ comments.count }} comment(s):</h2>
+            {% for comment in comments  %}
+                <div class="comment">
+                    <p class="c">
+                        <b>{{ comment.user }}</b>
+                    </p>
+                    {{ comment.body|linebreaks }}
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                </div>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+      </div>
+    </div>
+        <div class="card">
+            <div class="card-body">
+                {% if new_comment %}
+                    <h4>comment added</h4>
+                {% else %}
+                    <h4>Add your new comment</h4>
+                    <form action="." method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
 </body>
 </html>
