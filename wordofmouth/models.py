@@ -35,3 +35,16 @@ class Recipe(models.Model):
 class FavoriteRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favorites')
+
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField(blank=True)
+    #created = models.DateTimeField(blank=True)
+    #active = models.BooleanField(default=True)
+
+    #class Meta:
+       # ordering = ('created',)
+
+    def __str__(self):
+       return'Comment on {} by {}'.format(self.body, self.user)

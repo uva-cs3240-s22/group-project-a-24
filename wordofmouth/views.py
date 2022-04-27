@@ -1,15 +1,15 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 # Create your views here.
 from django.urls import reverse
 from django.views import generic
 
-from wordofmouth.forms import RecipeForm
-from wordofmouth.models import FavoriteRecipe, Recipe
-from django.shortcuts import get_object_or_404,redirect
+from wordofmouth.forms import RecipeForm, CommentForm
+from wordofmouth.models import FavoriteRecipe, Recipe, Comment
+from django.shortcuts import get_object_or_404, redirect
 
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
@@ -43,6 +43,7 @@ class RecipesByUserView(generic.ListView):
     def get_queryset(self):
         return Recipe.objects.filter(author=self.kwargs['pk'])
 
+@login_required
 def recipe_detail(request, id):
     recipe = Recipe.objects.get(id=id)
     temp = FavoriteRecipe.objects.filter(user=request.user)
@@ -50,7 +51,14 @@ def recipe_detail(request, id):
     for fav in temp:
         user_favs.append(fav.recipe)
     print(user_favs)
-    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe, 'user_favs': user_favs})
+
+    tempUser = request.user
+    comments = Comment.objects.filter(recipe=recipe)
+    tempVal = addComments(request, id, tempUser)
+    new_comment = tempVal[0]
+    comment_form = tempVal[1]
+
+    return render(request, 'wordofmouth/recipe-detail.html', {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -81,3 +89,21 @@ class UserFavorites(generic.ListView):
 
     def get_queryset(self):
         return FavoriteRecipe.objects.filter(user=self.request.user)
+
+@login_required
+def addComments(request,id, tempUser):
+    recipe = Recipe.objects.get(id=id)
+    new_comment = None
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # new_comment = Comment.objects.create(recipe=recipe, user=request.user, body=request.POST.get('body'))
+            new_comment = comment_form.save(commit=False)
+            new_comment.recipe = recipe
+            new_comment.user = tempUser
+            new_comment.body = request.POST.get('body')
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return new_comment, comment_form

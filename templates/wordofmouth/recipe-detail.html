@@ -88,8 +88,39 @@
                 </h6>
             </div>
         </div>
-
-
     </div>
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <!-- comments -->
+          <h2>{{ comments.count }} comment(s):</h2>
+            {% for comment in comments  %}
+                <div class="comment">
+                    <p class="c">
+                        <b>{{ comment.user }}</b>
+                    </p>
+                    {{ comment.body|linebreaks }}
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                </div>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+      </div>
+    </div>
+        {% if user.is_authenticated %}
+        <div class="col-md-8 card mb-4  mt-3 ">
+            <div class="card-body">
+                {% if new_comment %}
+                    <h4>comment added</h4>
+                {% else %}
+                    <h4>Add your new comment</h4>
+                    <form action="." method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Add comment"></p>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
 </body>
 </html>
