@@ -22,7 +22,7 @@ def create_recipe(request):
                        ingredients=form.cleaned_data['ingredients'],
                        directions=form.cleaned_data['directions'],
                        author=request.user,
-                       image=request.FILES['image']
+                       image=request.FILES['image'],
                        )
             r.save()
             return HttpResponseRedirect('/')
@@ -31,21 +31,22 @@ def create_recipe(request):
     return render(request, 'templates/wordofmouth/create-recipe.html', {'form': form})
 
 def fork_recipe(request, id):
-    recipe = Recipe.objects.get(id=id)
+    recipe = Recipe.objects.get(pk=id)
     if request.method == 'POST':
-        form = ForkedRecipeForm(request.POST, request.FILES)
+        form = ForkedRecipeForm(request.GET, request.FILES, initial={"title": recipe.title, "description": recipe.description, "ingredients": recipe.ingredients, "directions": recipe.directions})
         if form.is_valid():
             r = ForkedRecipe(title=form.cleaned_data['title'],
                        description=form.cleaned_data['description'],
                        ingredients=form.cleaned_data['ingredients'],
                        directions=form.cleaned_data['directions'],
                        author=request.user,
-                       image=request.FILES['image']
+                       image=request.FILES['image'],
+                       parent= id
                        )
             r.save()
             return HttpResponseRedirect('/')
     else:
-        form = ForkedRecipeForm()
+        form = ForkedRecipeForm(request.GET, request.FILES, initial={"title": recipe.title, "description": recipe.description, "ingredients": recipe.ingredients, "directions": recipe.directions})
     return render(request, 'templates/wordofmouth/fork-recipe.html', {'form': form, 'recipe': recipe})
 
 def view_recipes(request):

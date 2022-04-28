@@ -34,14 +34,13 @@ class Recipe(models.Model):
         return self.title
 
 class ForkedRecipe(models.Model):
-    originalRecipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    title = Recipe.title
-    description = Recipe.description
-    ingredients = Recipe.ingredients
-    directions = Recipe.directions
-    author = Recipe.author
+    title = models.CharField(max_length=100, blank=False)  # double check on blank
+    description = models.CharField(max_length=175, blank=True)
+    ingredients = models.TextField(blank=True)
+    directions = models.TextField(blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='staticfiles', default='staticfiles/recipe.png')
-    ogLink = Recipe.id
+    parent = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     # title = models.CharField(max_length=100, blank=False, default=models.ForeignKey(Recipe, on_delete=models.CASCADE).get_foreign_related_value(Recipe)) # double check on blank
     # description = models.CharField(max_length=175, blank=True, default=models.ForeignKey(Recipe.description, on_delete=models.CASCADE))
     # ingredients = models.TextField(blank = True, default=models.ForeignKey(Recipe.ingredients, on_delete=models.CASCADE))
