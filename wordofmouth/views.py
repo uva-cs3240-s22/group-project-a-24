@@ -40,8 +40,8 @@ def fork_recipe(request, id):
                        ingredients=form.cleaned_data['ingredients'],
                        directions=form.cleaned_data['directions'],
                        author=request.user,
-                       image=request.FILES['image'],
-                       parent= id
+                       image=recipe.image,
+                       parent=recipe
                        )
             r.save()
             return HttpResponseRedirect('/')

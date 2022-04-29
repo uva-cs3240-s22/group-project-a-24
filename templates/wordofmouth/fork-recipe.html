@@ -38,7 +38,7 @@
 </nav>
 
 <div class="d-flex justify-content-center align-items-center flex-column">
-    <h1 class="mt-3">Enter your Recipe</h1>
+    <h1 class="mt-3">Enter your Recipe Modifications</h1>
     <a  class="mb-3" href="{% url 'wordofmouth:home' %}">view all recipes 🔍</a>
     <form action="{%  url 'wordofmouth:fork-recipe' recipe.id %}"  method="post" enctype="multipart/form-data">
     {# method is post because we are uploading data to the server/database #}

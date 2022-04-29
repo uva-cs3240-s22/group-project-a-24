@@ -15,7 +15,7 @@ class ForkedRecipeForm(forms.ModelForm):
     #     self.fields['title'].initial = recipe.title
     class Meta:
         model = ForkedRecipe
-        fields = ['title', 'description', 'ingredients', 'directions', 'image']
+        fields = ['title', 'description', 'ingredients', 'directions']
     #     def __str__(self):
     #         return model.title
     # title = forms.CharField(initial=Recipe.title, max_length=200)
