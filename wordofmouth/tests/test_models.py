@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 class RecipeTestCase(TestCase):
     def setUp(self):
         Recipe.objects.create(title="Hashbrowns", description="This is a recipe on how to make my favorite hashbrowns",
-                              ingredients="potatoes", directions="I actually don't know how to make hashbrowns", author=User.objects.create(username="hana"))
+                              ingredients="potatoes", directions="I actually don't know how to make hashbrowns", author=User.objects.create(username="hana"), image='staticfiles/recipe.png')
 
     def test_recipes_are_properly_stored(self):
         hashbrowns = Recipe.objects.get(title="Hashbrowns")
         self.assertEqual(hashbrowns.__str__, 'Hashbrowns')
+        #was returning andparing the Recipe object, not the title
