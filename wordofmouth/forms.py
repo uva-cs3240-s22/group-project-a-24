@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, ForkedRecipe, Recipe
+from .models import Comment, Recipe
 
 class RecipeForm(forms.Form):
     title = forms.CharField(label='Enter Recipe Title', max_length=200)
@@ -14,7 +14,7 @@ class ForkedRecipeForm(forms.ModelForm):
     #     super(ForkedRecipeForm, self).__init__(*args, **kwargs)
     #     self.fields['title'].initial = recipe.title
     class Meta:
-        model = ForkedRecipe
+        model = Recipe
         fields = ['title', 'description', 'ingredients', 'directions']
     #     def __str__(self):
     #         return model.title

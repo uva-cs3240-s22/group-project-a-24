@@ -59,6 +59,8 @@
                     <!-- <form action="{% url 'wordofmouth:recipes-by-user' recipe.pk  %}" method="POST">
                         <input class="btn btn-primary" id="submit" type="button" value="Add to Favorites" />
                     </form> -->
+
+                    <!-- BUTTONS -->
                     <a href="{% url 'wordofmouth:add-recipe-favorite' recipe.pk %}">
                         {% if recipe in user_favs %}
                             <button class="btn btn-outline-danger">Remove from Favorites</button>
@@ -69,7 +71,11 @@
                     <a href= "{%  url 'wordofmouth:fork-recipe' recipe.id %}">
                         <button class="btn btn-info">Fork Recipe</button>
                     </a>
-                   
+                        {% if recipe.parent is not None %}
+                            <a href= "{%  url 'wordofmouth:recipe-detail' recipe.parent %}">
+                                <button class="btn btn-info">View Parent Recipe</button>
+                            </a>
+                        {%endif%}
                     {% endif %}
                 </div>
 
@@ -92,7 +98,20 @@
             </div>
         </div>
     </div>
-<!--button to show forked recipes-->
+<!--show forked recipes-->
+<div class="d-flex flex-wrap justify-content-around">
+    {% for child in children %}
+        <a href={% url 'wordofmouth:recipe-detail' child.pk %}><div class="card mb-3" style="width: 25rem">
+            {# ^ this div is for each recipe #}
+            <h3 class="card-title">{{ child.title }}</h3>
+            <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Created by:</span> <a href= {% url 'wordofmouth:recipes-by-user' child.author.pk %}>{{ child.author.username }}</a></h6>
+            <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Description:</span> {{ child.description }}</h6>
+        </div></a>
+    {%empty%}
+        <p>There are no forked recipes for this entry</p>
+    {%endfor%}
+
+</div>
     <div class="column">
       <div class="card-body">
         <!-- comments -->

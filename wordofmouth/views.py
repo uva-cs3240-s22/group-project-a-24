@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 
 from wordofmouth.forms import RecipeForm, CommentForm, ForkedRecipeForm
-from wordofmouth.models import FavoriteRecipe, Recipe, Comment, ForkedRecipe
+from wordofmouth.models import Recipe, Comment, FavoriteRecipe
 
 from django.shortcuts import get_object_or_404,redirect
 
@@ -30,18 +30,20 @@ def create_recipe(request):
         form = RecipeForm()
     return render(request, 'templates/wordofmouth/create-recipe.html', {'form': form})
 
+@login_required(login_url='/accounts/google/login')
 def fork_recipe(request, id):
     recipe = Recipe.objects.get(pk=id)
     if request.method == 'POST':
         form = ForkedRecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            r = ForkedRecipe(title=form.cleaned_data['title'],
+            r = Recipe(title=form.cleaned_data['title'],
                        description=form.cleaned_data['description'],
                        ingredients=form.cleaned_data['ingredients'],
                        directions=form.cleaned_data['directions'],
                        author=request.user,
                        image=recipe.image,
-                       parent=recipe
+                       parent=recipe.id,
+                       pk=None
                        )
             r.save()
             return HttpResponseRedirect('/')
@@ -65,6 +67,7 @@ class RecipesByUserView(generic.ListView):
 
 def recipe_detail(request, id):
     recipe = Recipe.objects.get(id=id)
+    children = Recipe.objects.filter(parent=id)
     temp = FavoriteRecipe.objects.filter(user=request.user)
     user_favs = []
     for fav in temp:
@@ -88,7 +91,7 @@ def recipe_detail(request, id):
 
     return render(request, 'wordofmouth/recipe-detail.html',
                       {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
-                       'comment_form': comment_form})
+                       'comment_form': comment_form, 'children': children})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
