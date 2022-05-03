@@ -144,17 +144,17 @@
             </div>
             
             <div>
-                <div class="column">
+                <div class="card">
                 <div class="card-body">
                     <!-- comments -->
                     <h2>{{ comments.count }} comment(s):</h2>
                         {% for comment in comments  %}
                             <div class="comment">
                                 <p class="c">
-                                    <b>{{ comment.user }}</b>
+                                    <b>{{ comment.user }}:</b>
                                 </p>
                                 {{ comment.body|linebreaks }}
-                                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                                <hr style="height:3px;border-width:0;color:gray">
                             </div>
                         {% empty %}
                             <p>No comments yet</p>
@@ -163,19 +163,30 @@
                 </div>
                     <div class="card">
                         <div class="card-body">
+                            <div>
+                                {% if message %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{message}}
+                                </div>
+                                {% endif %}
+                             </div>
                             {% if new_comment %}
                                 <h4>comment added, add another?</h4>
-                                <form action="." method="post">
+                                <form action="" method="post">
                                     {{ comment_form.as_p }}
                                     {% csrf_token %}
-                                    <p><input type="submit" value="Add comment"></p>
+                                    {% buttons %}
+                                        <input class="btn btn-secondary" type="submit" value="Add Comment">
+                                    {% endbuttons %}
                                 </form>
                             {% else %}
                                 <h4>Add your new comment</h4>
-                                <form action="." method="post">
+                                <form action="" method="post">
                                     {{ comment_form.as_p }}
                                     {% csrf_token %}
-                                    <p><input type="submit" value="Add comment"></p>
+                                    {% buttons %}
+                                        <input class="btn btn-secondary" type="submit" value="Add Comment">
+                                    {% endbuttons %}
                                 </form>
                             {% endif %}
                         </div>

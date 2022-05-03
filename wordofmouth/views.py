@@ -13,6 +13,7 @@ from wordofmouth.models import Recipe, Comment, FavoriteRecipe
 from django.shortcuts import get_object_or_404, redirect
 
 
+
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
     if request.method == 'POST':
@@ -39,6 +40,12 @@ def fork_recipe(request, id):
     recipe = Recipe.objects.get(pk=id)
     if request.method == 'POST':
         form = ForkedRecipeForm(request.POST, request.FILES)
+        if request.POST.get('description') == recipe.description:
+            if request.POST.get('ingredients') == recipe.ingredients:
+                if request.POST.get('directions') == recipe.directions:
+                    message = "That Recipe has Already been Created!"
+                    return render(request, 'templates/wordofmouth/fork-recipe.html',
+                                  {'form': form, 'recipe': recipe, 'message': message})
         if form.is_valid():
             r = Recipe(title=form.cleaned_data['title'],
                        description=form.cleaned_data['description'],
@@ -50,6 +57,7 @@ def fork_recipe(request, id):
                        pk=None
                        )
             r.save()
+
             return HttpResponseRedirect('/')
     else:
         form = ForkedRecipeForm(instance=recipe)
@@ -83,12 +91,17 @@ def recipe_detail(request, id):
     new_comment = None
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
+        if not comment_form.data['body']:
+            message = "You Cannot Submit an Empty Comment"
+            return render(request, 'wordofmouth/recipe-detail.html',
+                      {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
+                       'comment_form': comment_form,'message':message, 'children': children})
         if comment_form.is_valid():
-            # new_comment = Comment.objects.create(recipe=recipe, user=request.user, body=request.POST.get('body'))
-            new_comment = comment_form.save(commit=False)
-            new_comment.recipe = recipe
-            new_comment.user = request.user
-            new_comment.body = request.POST.get('body')
+            new_comment = Comment(recipe=recipe, user=request.user, body=request.POST.get('body'))
+            #new_comment = comment_form.save(commit=False)
+            #new_comment.recipe = recipe
+            #new_comment.user = request.user
+            #new_comment.body = request.POST.get('body')
             new_comment.save()
             comment_form = CommentForm()
     else:
