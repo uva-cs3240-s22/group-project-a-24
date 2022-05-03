@@ -6,52 +6,55 @@
 <html>
 <body style="background-color: aliceblue;">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #FFFFFF !important;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2) !important; border: none !important;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'wordofmouth:home' %}" style="font-family: 'Courier New';font-style: normal;font-weight: 400;font-size: 30px;line-height: 34px;">Word of Mouth</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;">view your recipes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;">view your favorites</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">log in</a>
-        </li>
-        {% endif %}
-      </ul>
-        {% if user.is_authenticated %}
-            <span class="navbar-text">
-              <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Courier New';font-style: normal;">
-                    welcome, {{ user.first_name }}!
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                    <li><a class="dropdown-item" href="/logout" style="font-family: 'Courier New';font-style: normal;">Log out?</a></li>
-                  </ul>
-              </div>
-            </span>
-        {% else %}
-            <span class="navbar-text">
-                <a class="nav-link btn btn-primary text-light" href="{% provider_login_url 'google' %}" role="button">Log In</a>
-            </span>
-        {% endif %}
-    </div>
-  </div>
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #FFFFFF !important;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2) !important; border: none !important;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'wordofmouth:home' %}" style="font-family: 'Courier New';font-style: normal;font-weight: 400;font-size: 30px;line-height: 34px;">
+            <img src="https://word-of-mouth-a24.s3.amazonaws.com/staticfiles/logo.png" alt="" width="44" height="40" class="d-inline-block align-text-top">
+            Word of Mouth
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;">view your recipes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;">view your favorites</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">log in</a>
+              </li>
+              {% endif %}
+            </ul>
+              {% if user.is_authenticated %}
+                  <span class="navbar-text">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Courier New';font-style: normal;">
+                          welcome, {{ user.first_name }}!
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                          <li><a class="dropdown-item" href="/logout" style="font-family: 'Courier New';font-style: normal;">Log out?</a></li>
+                        </ul>
+                    </div>
+                  </span>
+              {% else %}
+                  <span class="navbar-text">
+                      <a class="nav-link btn btn-primary text-light" href="{% provider_login_url 'google' %}" role="button">Log In</a>
+                  </span>
+              {% endif %}
+          </div>
+        </div>
+      </nav>
 
     <div class="d-flex flex-column mx-5 mb-5">
         <div class="d-flex justify-content-evenly align-items-center flex-row mt-5">
