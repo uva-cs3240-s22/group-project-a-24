@@ -17,24 +17,24 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-              {% if user.is_authenticated %}
-              <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;">view your recipes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;">view your favorites</a>
-              </li>
-              {% else %}
-              <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">log in</a>
-              </li>
-              {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;border-left: 1px solid;">create a recipe</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;">view your recipes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;border-right: 1px solid">view your favorites</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;">create a recipe</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid">log in</a>
+                </li>
+                {% endif %}
             </ul>
               {% if user.is_authenticated %}
                   <span class="navbar-text">
