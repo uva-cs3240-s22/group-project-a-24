@@ -8,6 +8,11 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
+
+REFERENCES
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# https://www.section.io/engineering-education/django-google-oauth/
 """
 
 import os
@@ -81,9 +86,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
@@ -181,7 +183,7 @@ LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # AUTH_PROFILE_MODULE = 'wordofmouth.Author'
-# https://www.section.io/engineering-education/django-google-oauth/
+
 # aws s3 image hosting
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
