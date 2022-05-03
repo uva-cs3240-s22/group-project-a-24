@@ -1,3 +1,6 @@
+# REFERENCES
+# # https://stackoverflow.com/questions/47597174/django-get-all-objects-from-a-specific-user
+# https://stackoverflow.com/questions/2991365/how-to-auto-insert-the-current-user-when-creating-an-object-in-django-admin
 from django.conf import settings
 from django.db import models
 import datetime
@@ -30,8 +33,6 @@ class Recipe(models.Model):
     directions = models.TextField(blank=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
-    # https://stackoverflow.com/questions/47597174/django-get-all-objects-from-a-specific-user
-    # https://stackoverflow.com/questions/2991365/how-to-auto-insert-the-current-user-when-creating-an-object-in-django-admin
     image = models.ImageField(upload_to='staticfiles',
                               default='staticfiles/recipe.png')
     parent = models.IntegerField(blank=True, null=True)

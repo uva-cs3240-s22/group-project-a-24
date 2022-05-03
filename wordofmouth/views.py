@@ -1,3 +1,6 @@
+# REFERENCES
+# https://stackoverflow.com/questions/4733609/how-do-i-clone-a-django-model-instance-object-and-save-it-to-the-database
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -30,8 +33,6 @@ def create_recipe(request):
     else:
         form = RecipeForm()
     return render(request, 'templates/wordofmouth/create-recipe.html', {'form': form})
-
-# https://stackoverflow.com/questions/4733609/how-do-i-clone-a-django-model-instance-object-and-save-it-to-the-database
 
 
 @login_required(login_url='/accounts/google/login')
