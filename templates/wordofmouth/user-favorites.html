@@ -29,7 +29,7 @@
           </li>
           {% else %}
           <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;">create a recipe</a>
+              <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;border-left: 1px solid;">create a recipe</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid">log in</a>
@@ -63,6 +63,12 @@
     {% if favorites %}
         <div class="d-flex flex-wrap justify-content-evenly align-content-start">
             {# ^ this div is for the container of recipes #}
+            {% if recipe.parent %}
+            <!-- recipe forked -->
+                <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">
+                Forked
+                </span>
+            {% endif %}
             {% for recipe in favorites %}
                 <div class="card mb-3" style="width: 25rem; height: 23.125rem; border-radius: 25px; border: none; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2);">
                   {# ^ this div is for each recipe #}
