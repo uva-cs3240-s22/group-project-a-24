@@ -3,32 +3,38 @@
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<html>
+<body style="background-color: aliceblue;">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #FFFFFF !important;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2) !important; border: none !important;">
   <div class="container-fluid">
-    <a class="navbar-brand" href={% url 'wordofmouth:home' %}>Word of Mouth</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'wordofmouth:home' %}" style="font-family: 'Courier New';font-style: normal;font-weight: 400;font-size: 30px;line-height: 34px;">
+      <img src="https://word-of-mouth-a24.s3.amazonaws.com/staticfiles/logo.png" alt="" width="44" height="40" class="d-inline-block align-text-top me-3">
+      Word of Mouth
+    </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-{#        <li class="nav-item">#}
-{#          <a class="nav-link active" aria-current="page" href={% url 'wordofmouth:home' %}>Home</a>#}
-{#        </li>#}
-{#        <li class="nav-item">#}
-{#          <a class="nav-link active" href={% url 'wordofmouth:create-recipe' %}>Create a Recipe</a>#}
-{#        </li>#}
-
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;border-left: 1px solid;">create a recipe</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;border-right: 1px solid;">view your recipes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;border-right: 1px solid">view your favorites</a>
+      </li>
       </ul>
         {% if user.is_authenticated %}
             <span class="navbar-text">
               <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Welcome, {{ user.first_name }}
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Courier New';font-style: normal;">
+                    welcome, {{ user.first_name }}!
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                    <li><a class="dropdown-item" href= '/{{ user.pk }}/recipes'>View your recipes</a></li>
-                    <li><a class="dropdown-item" href= '/favorites'>View your favorites</a></li>
-                    <li><a class="dropdown-item" href="/logout">Log out?</a></li>
+                    <li><a class="dropdown-item" href="/logout" style="font-family: 'Courier New';font-style: normal;">Log out?</a></li>
                   </ul>
               </div>
             </span>
@@ -46,7 +52,12 @@
         {% bootstrap_form form %}
     {#    {{ form }}#}
         {% buttons %}
-            <input class="btn btn-primary" type="submit" value="Submit Recipe">
+            <input class="btn btn-primary" type="submit" value="Submit Recipe" aria-describedby="passwordHelpBlock">
+            <small id="passwordHelpBlock" class="form-text text-muted">
+              You cannot remove your recipe after submission. Contact Word of Mouth with any questions.
+            </small>
         {% endbuttons %}
     </form>
 </div>
+</html>
+</body>
