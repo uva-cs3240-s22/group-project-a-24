@@ -4,61 +4,83 @@
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 <html>
-<body>
+<body style="background-color: aliceblue;">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href={% url 'wordofmouth:home' %}>Word of Mouth</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-{#        <li class="nav-item">#}
-{#          <a class="nav-link active" aria-current="page" href={% url 'wordofmouth:home' %}>Home</a>#}
-{#        </li>#}
-{#        <li class="nav-item">#}
-{#          <a class="nav-link active" href={% url 'wordofmouth:create-recipe' %}>Create a Recipe</a>#}
-{#        </li>#}
-
-      </ul>
-        {% if user.is_authenticated %}
-            <span class="navbar-text">
-              <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Welcome, {{ user.first_name }}
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                    <li><a class="dropdown-item" href= '/{{ user.pk }}/recipes'>View your recipes</a></li>
-                    <li><a class="dropdown-item" href= '/favorites'>View your favorites</a></li>
-                    <li><a class="dropdown-item" href="/logout">Log out?</a></li>
-                  </ul>
-              </div>
-            </span>
-        {% else %}
-            <span class="navbar-text">
-                <a class="nav-link btn btn-primary text-light" href={% provider_login_url 'google' %} role="button">Log In</a>
-            </span>
-        {% endif %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #FFFFFF !important;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2) !important; border: none !important;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'wordofmouth:home' %}" style="font-family: 'Courier New';font-style: normal;font-weight: 400;font-size: 30px;line-height: 34px;">Word of Mouth</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'wordofmouth:create-recipe' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href= '/{{ user.pk }}/recipes' style="font-family: 'Courier New';font-style: normal;">view your recipes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href= '/favorites' style="font-family: 'Courier New';font-style: normal;">view your favorites</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">create a recipe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"href="{% provider_login_url 'google' %}" style="font-family: 'Courier New';font-style: normal;">log in</a>
+          </li>
+          {% endif %}
+        </ul>
+          {% if user.is_authenticated %}
+              <span class="navbar-text">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Courier New';font-style: normal;">
+                      welcome, {{ user.first_name }}!
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                      <li><a class="dropdown-item" href="/logout" style="font-family: 'Courier New';font-style: normal;">Log out?</a></li>
+                    </ul>
+                </div>
+              </span>
+          {% else %}
+              <span class="navbar-text">
+                  <a class="nav-link btn btn-primary text-light" href="{% provider_login_url 'google' %}" role="button">Log In</a>
+              </span>
+          {% endif %}
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
     <div class="d-flex justify-content-center align-items-center flex-column">
     {# get author name by getting the author of the first element in the list #}
     <h3 class="mt-3 mb-3">Your Favorite Recipes</h3>
 
     {% if favorites %}
-        <div class="d-flex flex-wrap justify-content-around">
+        <div class="d-flex flex-wrap justify-content-evenly align-content-start">
             {# ^ this div is for the container of recipes #}
             {% for recipe in favorites %}
-                <div class="card mb-3" style="width: 25rem">
+                <!-- <div class="card mb-3" style="width: 25rem">
                     {# ^ this div is for each recipe #}
                     <a href={% url 'wordofmouth:recipe-detail' recipe.recipe.pk %}><img src="{{recipe.recipe.image.url}}" class="card-img-top" alt="image to be placed"></a>
                     <h3 class="card-title">{{ recipe.recipe.title }}</h3>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Created by:</span> <a href= {% url 'wordofmouth:recipes-by-user' recipe.recipe.author.pk %}>{{ recipe.recipe.author.username }}</a></h6>
                     <h6 class="card-text" style="font-weight: normal"><span style="font-weight: bold">Description:</span> {{ recipe.recipe.description }}</h6>
-                </div>
+                </div> -->
+
+                <div class="card mb-3" style="width: 30rem; height: 28.125rem; border-radius: 0px; border: none; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 20px 40px rgba(92, 103, 153, 0.2);">
+                  {# ^ this div is for each recipe #}
+                  <a href={% url 'wordofmouth:recipe-detail' recipe.pk %}>
+                      <img src="{{recipe.recipe.image.url}}" class="card-img-top" alt="an image of {{recipe.recipe.title}}" style="object-fit: cover; width: 100%; height: 300px;border-radius: 0px; padding: 4%; padding-bottom: 0px;">
+                  </a>
+                  <!-- <img src="{{recipe.image.url}}" class="card-img-top" alt="image to be placed"> -->
+                  <div class="card-body">
+                      <h3 class="card-title">{{ recipe.recipe.title }}</h3>
+                      <h6 class="card-subtitle mb-2 text-muted">Author: <a href= {% url 'wordofmouth:recipes-by-user' recipe.recipe.author.pk %}>{{ recipe.recipe.author.username }}</a></h6>
+                      <h6 class="card-subtitle mb-2 text-muted">Description: {{ recipe.recipe.description }}</h6>
+                  </div>
+              </div>
             {% endfor %}
         </div>
     {% else %}
