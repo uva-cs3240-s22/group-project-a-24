@@ -23,26 +23,36 @@ class Temp(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=100, blank=False) # double check on blank
+    # double check on blank
+    title = models.CharField(max_length=100, blank=False)
     description = models.CharField(max_length=175, blank=True)
-    ingredients = models.TextField(blank = True)
-    directions = models.TextField(blank = True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    image = models.ImageField(upload_to='staticfiles', default='staticfiles/recipe.png')
+    ingredients = models.TextField(blank=True)
+    directions = models.TextField(blank=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
+    # https://stackoverflow.com/questions/47597174/django-get-all-objects-from-a-specific-user
+    # https://stackoverflow.com/questions/2991365/how-to-auto-insert-the-current-user-when-creating-an-object-in-django-admin
+    image = models.ImageField(upload_to='staticfiles',
+                              default='staticfiles/recipe.png')
     parent = models.IntegerField(blank=True, null=True)
+
     def __str__(self):
         return self.title
 
 
-
 class FavoriteRecipe(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favorites')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='favorites')
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='favorites')
+
 
 class Comment(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField(blank=True)
 
     def __str__(self):
-       return'Comment {} by {}'.format(self.body, self.user)
+        return'Comment {} by {}'.format(self.body, self.user)

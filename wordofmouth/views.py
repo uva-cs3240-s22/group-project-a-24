@@ -10,7 +10,8 @@ from django.views import generic
 from wordofmouth.forms import RecipeForm, CommentForm, ForkedRecipeForm
 from wordofmouth.models import Recipe, Comment, FavoriteRecipe
 
-from django.shortcuts import get_object_or_404,redirect
+from django.shortcuts import get_object_or_404, redirect
+
 
 @login_required(login_url='/accounts/google/login')
 def create_recipe(request):
@@ -29,6 +30,9 @@ def create_recipe(request):
     else:
         form = RecipeForm()
     return render(request, 'templates/wordofmouth/create-recipe.html', {'form': form})
+
+# https://stackoverflow.com/questions/4733609/how-do-i-clone-a-django-model-instance-object-and-save-it-to-the-database
+
 
 @login_required(login_url='/accounts/google/login')
 def fork_recipe(request, id):
@@ -51,9 +55,10 @@ def fork_recipe(request, id):
         form = ForkedRecipeForm(instance=recipe)
     return render(request, 'templates/wordofmouth/fork-recipe.html', {'form': form, 'recipe': recipe})
 
+
 def view_recipes(request):
     latest_recipe_list = Recipe.objects
-    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(),})
+    return render(request, 'templates/wordofmouth/recipe-list.html', {'latest_recipe_list': latest_recipe_list.all(), })
 
 
 class RecipesByUserView(generic.ListView):
@@ -90,13 +95,14 @@ def recipe_detail(request, id):
         comment_form = CommentForm()
 
     return render(request, 'wordofmouth/recipe-detail.html',
-                      {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
-                       'comment_form': comment_form, 'children': children})
+                  {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
+                   'comment_form': comment_form, 'children': children})
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
     #     return context
+
 
 @login_required
 def add_favorite(request, id):
@@ -115,6 +121,8 @@ def add_favorite(request, id):
 #     favorites = Recipe.newmanager.filter(favorites=request.user)
 #     return render(request, 'wordofmouth/user-favorites.html', { 'favorites': favorites })
 # @login_required
+
+
 class UserFavorites(generic.ListView):
     model = Recipe
     template_name = 'templates/wordofmouth/user-favorites.html'
