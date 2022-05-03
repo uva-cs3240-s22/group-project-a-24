@@ -111,6 +111,11 @@ def recipe_detail(request, id):
                   {'recipe': recipe, 'user_favs': user_favs, 'comments': comments, 'new_comment': new_comment,
                    'comment_form': comment_form, 'children': children})
 
+# Comments source:
+#Title: Creating Comments System With Django
+#Author: Abhijeet Pal
+#URL: https://djangocentral.com/creating-comments-system-with-django/
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['latest_user'] = Recipe.objects.all()
